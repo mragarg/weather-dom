@@ -33,6 +33,16 @@ function getLocationTemperature(city) {
     return fDegree.toFixed(1) + "\xB0 F";
 }
 
+function getWeatherIcon(city) {
+    let iconLabel = city.weather[0].icon;
+    return "http://openweathermap.org/img/w/" + iconLabel + ".png";
+}
+
+function showWeatherIcon(url) {
+    const weatherIcon = document.createElement("img");
+    weatherIcon.src = url;
+    weatherInfo.appendChild(weatherIcon);
+}
 // Please ignore the following
 try {
     module.exports = {
@@ -52,6 +62,7 @@ try {
 
 const body = document.querySelector("body");
 const weatherInfo = document.querySelector("[data-weatherInfo]");
+const mapLocation = document.querySelector("[data-map]");
 
 // Go through data and create a `p` tag for them (city name, temperature, wind speed)
 const cityName = document.createElement("p");
@@ -66,6 +77,9 @@ cityWindSpeed.textContent = "Wind Speed: " + getWindSpeed(atlWeather);
 weatherInfo.appendChild(cityName);
 weatherInfo.appendChild(cityTemp);
 weatherInfo.appendChild(cityWindSpeed);
+showWeatherIcon(getWeatherIcon(atlWeather));
+
+mapLocation.src = "http://maps.google.com/maps?q=" + getLocationLatitude(atlWeather) + ", " + getLocationLongitude(atlWeather) +  "&z=15&output=embed";
 
 // Append them to the weatherDiv
 // Append weatherDiv to body 
@@ -74,3 +88,5 @@ weatherInfo.appendChild(cityWindSpeed);
 // appendChild is after and prepend is before 
 // NOTE: Remember to appendChild to body at the end to save computionally `energy`
 body.appendChild(weatherInfo);
+
+console.log(getWeatherIcon(atlWeather));
